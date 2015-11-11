@@ -55,9 +55,21 @@ public class Maze implements GraphInterface {
 	}
 
 	public final void saveToTextFile(String fileName) throws IOException {
-		
-		FileWriter fr = new FileWriter(fileName);
-				
+
+		FileWriter fr = null;
+
+		try {
+
+			fr = new FileWriter(fileName);
+			for (String mz : maze)
+				fr.write(mz + "\r\n"); //ecriture ligne par ligne dans le fichier txt 
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			fr.close();
+		}
 	}
 
 	@Override
