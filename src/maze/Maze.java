@@ -11,8 +11,8 @@ import dijkstra.GraphInterface;
 import dijkstra.VertexInterface;
 
 public class Maze implements GraphInterface {
-
-	private ArrayList<String> maze = new ArrayList<String>();
+	
+	private char[][] boxes = new char[10][10];
 
 	public final void initFromTextFile(String fileName)
 			throws FileNotFoundException, IOException, MazeReadingException {
@@ -31,41 +31,51 @@ public class Maze implements GraphInterface {
 			while (br.ready()) {
 				cpt++;
 				line = br.readLine();
-				if (line.length() != n)
+				if (line.length() != n) // vérification du nombre de colonnes
 					throw new MazeReadingException(fileName, cpt,
 							"nombre de colonnes incorrecte");
-				maze.add(line); // copie du fichier txt dans une liste de string
+				if (cpt > m) 			// vérification du nombre de lignes
+					throw new MazeReadingException(fileName, cpt,
+							"nombre de lignes trop élevé");
+				
+				for (int i = 0; i < line.length() - 1; i++) {
+					boxes[cpt - 1][i] = line.charAt(i); // copie du fichier txt
+														// dans le tableau boxes
+					System.out.print(line.charAt(i)); // affichage du fichier
+														// txt dans la console
+				}
+				System.out.println();
+
 			}
-			if (cpt != m)
+			if (cpt < m) // vérification du nombre de lignes
 				throw new MazeReadingException(fileName, cpt,
-						"nombre de lignes incorrecte");
+						"nombre de lignes trop faible");
 
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			br.close(); // le fichier txt est fermé quoi qu'il arrive
 		}
-
-		for (String mz : maze)
-			System.out.println(mz); // affichage du fichier txt dans la console
 	}
 
 	public final void saveToTextFile(String fileName) throws IOException {
 
+		int m = 10; // nombre de lignes
+		int n = 10; // nombre de colonnes
 		FileWriter fr = null;
 
 		try {
 
 			fr = new FileWriter(fileName);
-			for (String mz : maze)
-				fr.write(mz + "\r\n"); //ecriture ligne par ligne dans le fichier txt 
-
+			for (int i = 0; i < m - 1; i++) {
+				for (int j = 0; j < n - 1; j++) {
+					fr.write(boxes[i][j]); // ecriture dans le fichier txt
+				}
+				fr.write("\r\n");
+			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} finally {
 			fr.close();
@@ -88,6 +98,14 @@ public class Maze implements GraphInterface {
 	public int getWeight(VertexInterface src, VertexInterface dst) {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+	public char[][] getBoxes() {
+		return boxes;
+	}
+
+	public void setBoxes(char[][] boxes) {
+		this.boxes = boxes;
 	}
 
 }

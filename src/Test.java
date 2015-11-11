@@ -14,12 +14,9 @@ public class Test {
 		
 		try {
 			mz.initFromTextFile("data/Labyrinthe.txt");
-			//mz.saveToTextFile("data/Labyrinthe-copie.txt");
+			mz.saveToTextFile("data/Labyrinthe-copie.txt");
 		} catch (MazeReadingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 	}
-
 }
