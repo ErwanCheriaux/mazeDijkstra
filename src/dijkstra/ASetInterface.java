@@ -1,7 +1,7 @@
 package dijkstra;
 
-/* Ensemble A contenant les sommets du graphe par lesquel on est passé */
-public interface ASetInterface {
+/* Ensemble A contenant les sommets du graphe*/
+public interface ASetInterface{
 
 	/* Ajout d'un sommet à l'ensemble A */
 	public void add(VertexInterface x);

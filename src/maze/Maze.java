@@ -11,7 +11,7 @@ import dijkstra.GraphInterface;
 import dijkstra.VertexInterface;
 
 public class Maze implements GraphInterface {
-	
+
 	private char[][] boxes = new char[10][10];
 
 	public final void initFromTextFile(String fileName)
@@ -32,12 +32,10 @@ public class Maze implements GraphInterface {
 				cpt++;
 				line = br.readLine();
 				if (line.length() != n) // vérification du nombre de colonnes
-					throw new MazeReadingException(fileName, cpt,
-							"nombre de colonnes incorrecte");
-				if (cpt > m) 			// vérification du nombre de lignes
-					throw new MazeReadingException(fileName, cpt,
-							"nombre de lignes trop élevé");
-				
+					throw new MazeReadingException(fileName, cpt, "nombre de colonnes incorrecte");
+				if (cpt > m) // vérification du nombre de lignes
+					throw new MazeReadingException(fileName, cpt, "nombre de lignes trop élevé");
+
 				for (int i = 0; i < line.length() - 1; i++) {
 					boxes[cpt - 1][i] = line.charAt(i); // copie du fichier txt
 														// dans le tableau boxes
@@ -48,15 +46,16 @@ public class Maze implements GraphInterface {
 
 			}
 			if (cpt < m) // vérification du nombre de lignes
-				throw new MazeReadingException(fileName, cpt,
-						"nombre de lignes trop faible");
+				throw new MazeReadingException(fileName, cpt, "nombre de lignes trop faible");
 
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			br.close(); // le fichier txt est fermé quoi qu'il arrive
+			try {
+				br.close();
+			} // le fichier txt est fermé quoi qu'il arrive
+			catch (Exception e) {
+			} // ne rien faire si le fichier n'a jamais été ouvert
 		}
 	}
 
@@ -75,10 +74,14 @@ public class Maze implements GraphInterface {
 				}
 				fr.write("\r\n");
 			}
-		} catch (IOException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			fr.close();
+			try {
+				fr.close();
+			} // le fichier txt est fermé quoi qu'il arrive
+			catch (Exception e) {
+			} // ne rien faire si le fichier n'a jamais été ouvert
 		}
 	}
 
